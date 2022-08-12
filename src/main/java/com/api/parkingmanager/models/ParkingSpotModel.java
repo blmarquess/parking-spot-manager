@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name= "TB_PM_SPOT")
-public class ParckingManagerSpotModel implements Serializable {
+public class ParkingSpotModel implements Serializable {
   private static final long serialVersionUID = 1L;
 
   @Id
