@@ -1,4 +1,4 @@
-package Service;
+package com.api.parkingmanager.services;
 
 import com.api.parkingmanager.repository.ParkingSpotRepository;
 import org.springframework.stereotype.Service;
