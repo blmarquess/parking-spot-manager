@@ -26,17 +26,34 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
+/**
+ * The type Parking spot controller.
+ */
 @RestController
 @CrossOrigin (origins = "*", maxAge = 3600)
 @RequestMapping ("/parking-spot")
 public class ParkingSpotController {
 
+  /**
+   * The Parking spot service.
+   */
   final ParkingSpotService parkingSpotService;
 
+  /**
+   * Instantiates a new Parking spot controller.
+   *
+   * @param parkingSpotService the parking spot service
+   */
   public ParkingSpotController(ParkingSpotService parkingSpotService) {
     this.parkingSpotService = parkingSpotService;
   }
 
+  /**
+   * Save parking spot response entity.
+   *
+   * @param parkingSpotDTO the parking spot dto
+   * @return the response entity
+   */
   @PostMapping
   public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDTO parkingSpotDTO) {
     if (parkingSpotService.existsByLicensePlateCar(parkingSpotDTO.getLicensePlateCar())) {
@@ -62,12 +79,24 @@ public class ParkingSpotController {
     return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel));
   }
 
+  /**
+   * Gets all parking spots.
+   *
+   * @param pageable the pageable
+   * @return the all parking spots
+   */
   @GetMapping
   public ResponseEntity<Page<ParkingSpotModel>> getAllParkingSpots(@PageableDefault (
       page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
     return ResponseEntity.status(HttpStatus.OK).body(parkingSpotService.findAll(pageable));
   }
 
+  /**
+   * Gets one parking spot.
+   *
+   * @param id the id
+   * @return the one parking spot
+   */
   @GetMapping ("/{id}")
   public ResponseEntity<Object> getOneParkingSpot(@PathVariable (value = "id") UUID id) {
     Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findById(id);
@@ -80,6 +109,12 @@ public class ParkingSpotController {
             .body("Parking Spot not found."));
   }
 
+  /**
+   * Delete parking spot response entity.
+   *
+   * @param id the id
+   * @return the response entity
+   */
   @DeleteMapping ("/{id}")
   public ResponseEntity<Object> deleteParkingSpot(@PathVariable (value = "id") UUID id) {
     Optional<ParkingSpotModel> parkingSpotModelOptional = parkingSpotService.findById(id);
@@ -90,6 +125,13 @@ public class ParkingSpotController {
     return ResponseEntity.status(HttpStatus.OK).body("Parking Spot deleted successfully.");
   }
 
+  /**
+   * Update parking spot response entity.
+   *
+   * @param id             the id
+   * @param parkingSpotDto the parking spot dto
+   * @return the response entity
+   */
   @PutMapping ("/{id}")
   public ResponseEntity<Object> updateParkingSpot(@PathVariable (value = "id") UUID id,
                                                   @RequestBody @Valid ParkingSpotDTO parkingSpotDto) {
